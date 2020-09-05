@@ -52,7 +52,7 @@ rapidly building custom designs.
 ## License
 
 MIT License 
-Copyright (c) [2020] [Rebeca Pastl]
+Copyright (c) [2020] [Rebeca Pastl].
 For more information, read [LICENSE.md](LICENSE.md).
 
 ## Acknowledgments
