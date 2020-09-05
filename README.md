@@ -1,9 +1,12 @@
 # PalpiteBox (Semana Fullstack Master)
 
+Homepage
 ![Preview](https://github.com/RebecaPastl/palpite-box/blob/master/public/images/index.png)
 
+Customer satisfaction survey page
 ![Preview](https://github.com/RebecaPastl/palpite-box/blob/master/public/images/pesquisa.png)
 
+Coupon page
 ![Preview](https://github.com/RebecaPastl/palpite-box/blob/master/public/images/cupom.png)
 
 ## Table of Contents
