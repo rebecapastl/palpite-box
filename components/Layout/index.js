@@ -4,9 +4,10 @@ import Footer from '../footer'
 
 const Layout = ({children}) => {
     return (
-        <div>
+        /*locate footer relative to screen height: flex flex-col min-h-screen + child tag: flex-grow + footer: pin-b */
+        <div className='bg-gray-800 flex flex-col min-h-screen'>
             <Header />
-            <div className='container mx-auto'>
+            <div className='container mx-auto flex-grow'>
                 {children}
             </div>
             <Footer />

@@ -1,13 +1,13 @@
 import { GoogleSpreadsheet } from 'google-spreadsheet'
-//para preencher a data
+//to fill date
 import moment from 'moment'
 import { fromBase64 } from '../../utils/base64'
 
-const doc = new GoogleSpreadsheet(process.env.SHEET_DOC_ID) //endereco na url da planilha
+const doc = new GoogleSpreadsheet(process.env.SHEET_DOC_ID) //address at spreadsheet URL
 
-const genCupom = () => {
-    //num sistema tão pequeno, é imporvável que dois cumpons sejam gerados no mesmo milisegundo, então podemos gerar o valor do cupom com base na data/hora onde SSS é formatação para milisegundos
-    //toString(16) converte o numero gerado com base na data numa string em hexadecimal
+const genCoupon = () => {
+    //in such a small system, it is not probable to generate two codes at the same milisecond, so the code can be generated based on date/hour where SSS represents miliseconds
+    //toString(16) convert the generated number based  on the date/time into a hexadecimal string
     const code = parseInt(moment().format('YYMMDDHHmmssSSS')).toString(16).toUpperCase()
     return code.substr(0,4) + '-' + code.substr(4,4) + '-' + code.substr(8,4) 
 }
@@ -22,36 +22,37 @@ export default async (req, res) => {
         const sheet = doc.sheetsByIndex[1]
         const data = JSON.parse(req.body)
         
-        //pegar dados da planilha Configurações para preencher os dados de CUPOM e PROMO ativos no momento, na planilha Resultado
-        const sheetConfig = doc.sheetsByIndex[2]
+        //fetch the Config sheet data to fill the Coupon and Promo fields at the Survey sheet
+        const sheetConfig = doc.sheetsByIndex[3]
         await sheetConfig.loadCells('A2:B2')
-        const mostrarPromocaoCell = sheetConfig .getCell(1, 0)
-        const textoCell = sheetConfig.getCell(1, 1)
+        const showPromoCell = sheetConfig .getCell(1, 0)
+        const textCell = sheetConfig.getCell(1, 1)
 
-        let Cupom = ''
+        let Coupon = ''
         let Promo = ''
-        if (mostrarPromocaoCell.value === 'VERDADEIRO') {
+        if (showPromoCell.value === true) {
             
-            Cupom = genCupom()
-            Promo = textoCell.value
-        } 
+            Coupon = genCoupon()
+            Promo = textCell.value
+        }
 
-        //adicionar dados à planilha usando como referência o cabeçalho
+        //using spreadsheet title words as reference to add data to spreadsheet
         await sheet.addRow({
-            Nome: data.Nome,
+            Name: data.Name,
             Email: data.Email,
-            Whatsapp: data.Whatsapp,
-            Nota: parseInt(data.Nota),
-            Cupom,
+            Phone: data.Phone,
+            Rate: parseInt(data.Rate),
+            Coupon,
             Promo,
-            'Data Preenchimento': moment().format('DD/MM/YYYY, HH:mm:ss')
+            'Survey date': moment().format('DD/MM/YYYY, HH:mm:ss')
         })
-        //se o valor do cupom não estiver vazio (ou eja, for gerado corretamente), apresentar o valor em tela 
+        //if Coupon is not empty (that is to say, the number was generated correctly), print value onscreen 
         res.end(JSON.stringify({
-            showCoupon: Cupom !== '',
-            Cupom,
+            showCoupon: Coupon !== '',
+            Coupon,
             Promo
         }))
+        
     } catch (err) {
         console.log(err)
         res.end('error')

@@ -1,34 +1,33 @@
 import { GoogleSpreadsheet } from 'google-spreadsheet'
 import { fromBase64 } from '../../utils/base64'
 
-const doc = new GoogleSpreadsheet(process.env.SHEET_DOC_ID) //endereco na url da planilha
+const doc = new GoogleSpreadsheet(process.env.SHEET_DOC_ID) //address at spreadsheet URL
 
 export default async (req, res) => {
 
     try {
-        //ao invés de usar o arquivo credentials 'await doc.useServiceAccountAuth(credentials)', que tem como atributos 'client_email' e 'private_key', é melhor prática usar os atributos como um objeto e 
-        //atribuir seus valores a variáveis locais, definidas no arquivo .env.local que é visível apenas no backend 'await doc.useServiceAccountAuth({client_email:,private_key})' 
+        //using environment variable
         await doc.useServiceAccountAuth({
             client_email: process.env.SHEET_CLIENT_EMAIL,
             private_key: fromBase64(process.env.SHEET_PRIVATE_KEY)
         })
         await doc.loadInfo()
         
-        //captura a planilha na posicao de indice 2 (Configurações)
-        const sheet = doc.sheetsByIndex[2]
-        //que células ler
+        //fetch information from sheet in index 3 
+        const sheet = doc.sheetsByIndex[3]
+        //which cells to read
         await sheet.loadCells('A2:B2')
        
-        //selecionar a cell na linha 1 coluna 0
-        const mostrarPromocaoCell = sheet.getCell(1, 0)
+        //select cell at line 1 column 0
+        const showPromoCell = sheet.getCell(1, 0)
 
-        //selecionar a cell da linha 1 coluna 1 
-        const textoCell = sheet.getCell(1, 1)
+        //select cell at line 1 column 1
+        const textCell = sheet.getCell(1, 1)
 
-
+        //only fetch values if promo is set to true 
         res.end(JSON.stringify({
-            showCoupon: mostrarPromocaoCell.value === 'VERDADEIRO',
-            message: textoCell.value
+            showCoupon: showPromoCell.value === true,
+            message: textCell.value
         }))
 
     } catch (err) {

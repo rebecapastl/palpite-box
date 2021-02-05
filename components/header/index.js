@@ -9,20 +9,20 @@ const Header = () => {
                 <div className='container mx-auto'>
                 <Link href='/'>
                     <a>
-                        <img className='h-32 mx-auto' src='/images/logo_palpitebox.png' alt='PalpiteBox'/>
+                        <img className='mt-12 transform scale-150 h-32 mx-auto' src='/images/palpite-box.svg' alt='PalpiteBox'/>
                     </a>
                 </Link>
                 </div>
             </div>
-            <div className='bg-gray-300 p-4 shadow-md text-center'>
-                <Link href='/sobre'>
-                    <a className='px-2 hover:underline'>Sobre</a>
+            <div className='text-gray-500 bg-gray-900 p-4 shadow-md text-center'>
+                <Link href='/about'>
+                    <a className='mx-4 px-2 hover:text-yellow-600'>About</a>
                 </Link>
-                <Link href='/contato'>
-                    <a className='px-2 hover:underline'>Contato</a>
+                <Link href='/contact'>
+                    <a className='mx-4 px-2 hover:text-yellow-600'>Contact</a>
                 </Link>
-                <Link href='/pesquisa'>
-                    <a className='px-2 hover:underline'>Pesquisa</a>
+                <Link href='/survey'>
+                    <a className='mx-4 px-2 hover:text-yellow-600'>Survey</a>
                 </Link>
             </div>
         </React.Fragment>
