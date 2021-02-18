@@ -2,8 +2,12 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import PageTitle from '../components/page-title'
 import {facebook, twitter, instagram, whatsapp} from '../utils/icon-variables'
+import { useForm } from 'react-hook-form'
 
 const Contact = () => {
+
+    //form validation
+    const { register, handleSubmit, errors } = useForm();
 
     //Contact form field variables
     const [ form, setForm, ] = useState({
@@ -17,7 +21,7 @@ const Contact = () => {
     const [ resp, setResponse ] = useState({} )
 
     //save event: post form data into the spreadsheet calling saveContact.js
-    const save = async () => {
+    const save = async (data) => {
         try {
             const response = await fetch('/api/saveContact', {
                 method: 'POST',
@@ -76,17 +80,94 @@ const Contact = () => {
                         <p className='text-gray-500 text-center mb-6'>
                             Contact <span className='text-yellow-600'>Restaurant X</span>.
                         </p>
-                        <label className='font-bold text-gray-500'>Your name:</label>
-                        <input type='text' className='w-full p-4 block bg-yellow-100 my-2 rounded text-black' placeholder='Name' onChange={onChange} name='Name' value={form.Name} />
-                        <label className='font-bold text-gray-500'>Your email:</label>
-                        <input type='email' className='w-full p-4 block bg-yellow-100 my-2 rounded text-black' placeholder='Email' onChange={onChange} name='Email'value={form.Email} />
-                        <label className='font-bold text-gray-500'>Your phone number:</label>
-                        <input type='tel' className='w-full p-4 block bg-yellow-100 my-2 rounded text-black' placeholder='Phone' onChange={onChange} name='Phone' value={form.Phone}/>
-                        <label className='font-bold text-gray-500'>Message:</label>
-                        <textarea className='w-full p-4 block bg-yellow-100 my-2 rounded text-black' placeholder='Message' onChange={onChange} name='Message' value={form.Message}/>
-                        <div className='text-center'>
-                            <button className='text-gray-900 bg-yellow-600 px-12 py-4 mt-10 font-bold rounded-lg shadow-inner hover:bg-yellow-500' onClick={save}>Send</button>
-                        </div>
+                        <form onSubmit={handleSubmit(save)}>
+                            <label className='font-bold text-gray-500'>Your name:</label>
+                            <input 
+                                type='text' 
+                                className='w-full p-4 block bg-yellow-100 my-2 rounded text-black' 
+                                placeholder='Name' 
+                                onChange={onChange} 
+                                name='Name' 
+                                defaultValue={form.Name} 
+                                ref={
+                                    register({ 
+                                        required: "Name is required", 
+                                        maxLength: {
+                                            value: 30, 
+                                            message:"The name must have up to 30 characters"
+                                        }
+                                    }
+                                )} 
+                            />
+                            {errors.Name && <p className='text-yellow-600'>{errors.Name.message}</p>}
+
+                            <label className='font-bold text-gray-500'>Your e-mail:</label>
+                            <input 
+                                type='email' 
+                                className='w-full p-4 block bg-yellow-100 my-2 rounded text-black' 
+                                placeholder='E-mail' 
+                                onChange={onChange} 
+                                name='Email'
+                                defaultValue={form.Email} 
+                                ref={
+                                    register({ 
+                                        required: "E-mail is required" 
+                                    })
+                                }
+                            />
+                            {errors.Email && <p className='text-yellow-600'>{errors.Email.message}</p>}
+
+                            <label className='font-bold text-gray-500'>Your phone number:</label>
+                            <input 
+                                type='tel' 
+                                className='w-full p-4 block bg-yellow-100 my-2 rounded text-black' 
+                                placeholder='Phone' 
+                                onChange={onChange} 
+                                name='Phone' 
+                                defaultValue={form.Phone} 
+                                ref={
+                                    register({ 
+                                        required: "Phone is required", 
+                                        pattern:{
+                                            value:/[0-9]{10}/, 
+                                            message:"Enter a 10 digit phone number"
+                                        }
+                                    })
+                                }
+                            />
+                            {errors.Phone && <p className='text-yellow-600'>{errors.Phone.message}</p>}
+
+                            <label className='font-bold text-gray-500'>Message:</label>
+                            <textarea 
+                                className='w-full p-4 block bg-yellow-100 my-2 rounded text-black' 
+                                placeholder='Message' 
+                                onChange={onChange} 
+                                name='Message' 
+                                defaultValue={form.Message} 
+                                ref={
+                                    register({ 
+                                        required: "Please leave a message", 
+                                        minLength: {
+                                            value: 5,
+                                            message: "The message must have at least 5 characters" 
+                                        },
+                                        maxLength: {
+                                            value: 300,
+                                            message: "The message must have up to 300 characters" 
+                                        }
+                                    })
+                                }
+                            />
+                            {errors.Message && <p className='text-yellow-600'>{errors.Message.message}</p>}
+
+                            <div className='text-center'>
+                                <input 
+                                    type='submit' 
+                                    value='Send' 
+                                    className='text-gray-900 bg-yellow-600 px-12 py-4 mt-10 font-bold rounded-lg shadow-inner hover:bg-yellow-500' 
+                                />
+                            </div>
+                        </form>
                     </div>
                 }
                 {/* If saveContact.js returns a response, thank customer*/}

@@ -1,14 +1,18 @@
 import React, { useState } from 'react'
 import PageTitle from '../components/page-title'
+import { useForm } from 'react-hook-form'
 
 const Survey = () => {
+
+    //form validation
+    const { register, handleSubmit, errors } = useForm();
 
     //Survey form field variables
     const [ form, setForm, ] = useState({
         Name: '',
         Email: '',
         Phone: '',
-        Rate: 0
+        Rate: ''
     })
 
     //possible rate values
@@ -55,26 +59,91 @@ const Survey = () => {
             {/* If save.js doesn't return a response, keep form onscreen */}
             {!success &&
                 <div className='w-1/4 mx-auto pb-6'>
-                    <label className='font-bold text-gray-500'>Your name:</label>
-                    <input type='text' className='w-full p-4 block bg-yellow-100 my-2 rounded' placeholder='Name' onChange={onChange} name='Name' value={form.Name} />
-                    <label className='font-bold text-gray-500'>Your email:</label>
-                    <input type='email' className='w-full p-4 block bg-yellow-100 my-2 rounded' placeholder='Email' onChange={onChange} name='Email' value={form.Email} />
-                    <label className='font-bold text-gray-500'>Your phone number:</label>
-                    <input type='tel' className='w-full p-4 block bg-yellow-100 my-2 rounded' placeholder='Phone' onChange={onChange} name='Phone' value={form.Phone}/>
-                    <label className='font-bold text-gray-500'>Rate:</label>
-                    <div className='flex pb-10'>
-                    {rates.map(rate => {
-                        return (
-                            <label className='block w-1/6 text-center'>
-                                <img src={'/images/emoji'+ rate + '.svg'} alt='Rate'></img>
-                                <input className='bg-pink-600' type='radio' name='Rate' value={rate} onChange={onChange}/>
-                            </label>
-                        )
-                    })}
-                    </div>
-                    <div className='text-center'>
-                    <button className='text-gray-900 bg-yellow-600 px-12 py-4 font-bold rounded-lg shadow-inner hover:bg-yellow-500' onClick={save}>Save</button>
-                    </div>
+                    <form onSubmit={handleSubmit(save)}>
+                        <label className='font-bold text-gray-500'>Your name:</label>
+                        <input 
+                            type='text' 
+                            className='w-full p-4 block bg-yellow-100 my-2 rounded' 
+                            placeholder='Name' 
+                            onChange={onChange} 
+                            name='Name' 
+                            defaultValue={form.Name} 
+                            ref={
+                                register({ 
+                                    required: "Name is required", 
+                                    maxLength: {
+                                        value: 30, 
+                                        message:"The name must have up to 30 characters"
+                                    }
+                                }
+                            )} 
+                        />
+                        {errors.Name && <p className='text-yellow-600'>{errors.Name.message}</p>}
+
+                        <label className='font-bold text-gray-500'>Your email:</label>
+                        <input 
+                            type='email' 
+                            className='w-full p-4 block bg-yellow-100 my-2 rounded' 
+                            placeholder='Email' 
+                            onChange={onChange} 
+                            name='Email' 
+                            defaultValue={form.Email} 
+                            ref={
+                                register({ 
+                                    required: "E-mail is required" 
+                                })
+                            }
+                        />
+                        {errors.Email && <p className='text-yellow-600'>{errors.Email.message}</p>}
+
+                        <label className='font-bold text-gray-500'>Your phone number:</label>
+                        <input 
+                            type='tel' 
+                            className='w-full p-4 block bg-yellow-100 my-2 rounded' 
+                            placeholder='Phone' 
+                            onChange={onChange} 
+                            name='Phone' 
+                            defaultValue={form.Phone}
+                            ref={
+                                register({ 
+                                    required: "Phone is required", 
+                                    pattern:{
+                                        value:/[0-9]{10}/, 
+                                        message:"Enter a 10 digit phone number"
+                                    }
+                                })
+                            }
+                        />
+                        {errors.Phone && <p className='text-yellow-600'>{errors.Phone.message}</p>}
+
+                        <label className='font-bold text-gray-500'>Rate:</label>
+                        <div className='flex'>
+                        {rates.map(rate => {
+                            return (
+                                <label className='block w-1/6 text-center'>
+                                    <img src={'/images/emoji'+ rate + '.svg'} alt='Rate'></img>
+                                    <input 
+                                        className='bg-pink-600' 
+                                        type='radio' 
+                                        name='Rate' 
+                                        defaultValue={rate} 
+                                        onChange={onChange}
+                                        ref={register({required: "Please rate our service"})
+                                        }
+                                    />
+                                </label>
+                            )
+                        })}
+                        </div>
+                        {errors.Rate && <p className='text-yellow-600'>{errors.Rate.message}</p>}
+                        <div className='text-center'>
+                        <input 
+                            type='submit'
+                            value='Save'
+                            className='text-gray-900 bg-yellow-600 px-12 py-4 mt-10 font-bold rounded-lg shadow-inner hover:bg-yellow-500' 
+                        />
+                        </div>
+                    </form>
                 </div>
             }
             {/* If save.js returns a response*/}
