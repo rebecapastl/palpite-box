@@ -54,6 +54,7 @@ SHEET_DOC_ID=sheet address/id
 rapidly building custom designs.
 * [Figma](https://figma.com/) - Online prototyping tool.
 * [Google Sheets](https://drive.google.com) - Googlesheets.
+* [React Hook Form](https://react-hook-form.com/) - Form validator.
 
 ## Author
 
