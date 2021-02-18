@@ -3,11 +3,18 @@
 Homepage
 ![Preview](https://github.com/RebecaPastl/palpite-box/blob/master/public/images/index.png)
 
+About
+![Preview](https://github.com/RebecaPastl/palpite-box/blob/master/public/images/about.png)
+
+Contact
+![Preview](https://github.com/RebecaPastl/palpite-box/blob/master/public/images/contact.png)
+![Preview](https://github.com/RebecaPastl/palpite-box/blob/master/public/images/contactThankYou.png)
+
 Customer satisfaction survey page
-![Preview](https://github.com/RebecaPastl/palpite-box/blob/master/public/images/pesquisa.png)
+![Preview](https://github.com/RebecaPastl/palpite-box/blob/master/public/images/survey.png)
 
 Coupon page
-![Preview](https://github.com/RebecaPastl/palpite-box/blob/master/public/images/cupom.png)
+![Preview](https://github.com/RebecaPastl/palpite-box/blob/master/public/images/surveyPromoCode.png)
 
 ## Table of Contents
 * [Description](#description)
