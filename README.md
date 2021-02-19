@@ -68,4 +68,5 @@ For more information, read [LICENSE.md](LICENSE.md).
 
 ## Acknowledgments
 * This project was developed during [DevPleno](https://devpleno.com/)’s Fullstack Master classes.
-* [Icons](https://fontawesome.com/license) - Icons downloaded from [Font Awesome](https://fontawesome.com/) website. 
+* [Icons](https://fontawesome.com/license) - Icons downloaded from [Font Awesome](https://fontawesome.com/) website.
+* Images - Images from [Pexels](https://www.pexels.com/) website.
