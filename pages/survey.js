@@ -60,6 +60,7 @@ const Survey = () => {
             {!success &&
                 <div className='w-1/4 mx-auto pb-6'>
                     <form onSubmit={handleSubmit(save)}>
+                        
                         <label className='font-bold text-gray-500'>Your name:</label>
                         <input 
                             type='text' 
@@ -88,9 +89,17 @@ const Survey = () => {
                             onChange={onChange} 
                             name='Email' 
                             defaultValue={form.Email} 
+                            /* 
+                            cite: https://tools.ietf.org/html/rfc3696
+                            cite: https://www.oreilly.com/library/view/regular-expressions-cookbook/9781449327453/ch04s01.htmlhttps://www.oreilly.com/library/view/regular-expressions-cookbook/9781449327453/ch04s01.html 
+                            */
                             ref={
                                 register({ 
-                                    required: "E-mail is required" 
+                                    required: "E-mail is required.",
+                                    pattern: {
+                                        value: /^[A-Z0-9_!#$%&'*+/=?`{|}~^-]+(?:\.[A-Z0-9_!#$%&'*+/=?`{|}~^-]+)*@(?:[A-Z0-9-]+\.)+[A-Z]{2,6}$/i,
+                                        message: "Enter a valid e-mail."
+                                      }
                                 })
                             }
                         />

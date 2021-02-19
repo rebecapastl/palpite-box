@@ -4,9 +4,12 @@ import PageTitle from '../components/page-title'
 import {facebook, twitter, instagram, whatsapp} from '../utils/icon-variables'
 import { useForm } from 'react-hook-form'
 
+
 const Contact = () => {
 
     //form validation
+    //cite: https://tools.ietf.org/html/rfc3696
+    //cite: https://www.oreilly.com/library/view/regular-expressions-cookbook/9781449327453/ch04s01.htmlhttps://www.oreilly.com/library/view/regular-expressions-cookbook/9781449327453/ch04s01.html
     const { register, handleSubmit, errors } = useForm();
 
     //Contact form field variables
@@ -51,26 +54,31 @@ const Contact = () => {
         <div className='container text-justify text-gray-500 p-6 mb-10'>
             <h1 className='text-gray-500 text-center font-bold my-4 text-2xl'>Contact</h1>
             <div className='leading-loose text-center'>
+                
                 <Link href=''>
                     <a className='inline-flex hover:pointer-events-auto'>
                         <img className='h-32 mx-4' src={facebook.src} alt={facebook.alt}/>
                     </a>
                 </Link>
+                
                 <Link href=''>
                     <a className='inline-flex'>
                         <img className='h-32 mx-4' src={twitter.src} alt={twitter.alt}/>
                     </a>
                 </Link>
+                
                 <Link href=''>
                     <a className='inline-flex'>
                         <img className='h-32 mx-4' src={instagram.src} alt={instagram.alt}/>
                     </a>
                 </Link>
+                
                 <Link href=''>
                     <a className='inline-flex'>
                         <img className='h-32 mx-4' src={whatsapp.src} alt={whatsapp.alt}/>
                     </a>
                 </Link>
+            
             </div>
             <div className='w-1/2 mx-auto pb-6'>
                 {/* If saveContact.js doesn't return a response, keep form onscreen */}
@@ -81,6 +89,7 @@ const Contact = () => {
                             Contact <span className='text-yellow-600'>Restaurant X</span>.
                         </p>
                         <form onSubmit={handleSubmit(save)}>
+                            
                             <label className='font-bold text-gray-500'>Your name:</label>
                             <input 
                                 type='text' 
@@ -91,10 +100,10 @@ const Contact = () => {
                                 defaultValue={form.Name} 
                                 ref={
                                     register({ 
-                                        required: "Name is required", 
+                                        required: "Name is required.", 
                                         maxLength: {
                                             value: 30, 
-                                            message:"The name must have up to 30 characters"
+                                            message:"The name must have up to 30 characters."
                                         }
                                     }
                                 )} 
@@ -103,15 +112,23 @@ const Contact = () => {
 
                             <label className='font-bold text-gray-500'>Your e-mail:</label>
                             <input 
-                                type='email' 
+                                type='text' 
                                 className='w-full p-4 block bg-yellow-100 my-2 rounded text-black' 
                                 placeholder='E-mail' 
                                 onChange={onChange} 
                                 name='Email'
                                 defaultValue={form.Email} 
+                                /* 
+                                cite: https://tools.ietf.org/html/rfc3696
+                                cite: https://www.oreilly.com/library/view/regular-expressions-cookbook/9781449327453/ch04s01.htmlhttps://www.oreilly.com/library/view/regular-expressions-cookbook/9781449327453/ch04s01.html 
+                                */
                                 ref={
                                     register({ 
-                                        required: "E-mail is required" 
+                                        required: "E-mail is required.",
+                                        pattern: {
+                                            value: /^[A-Z0-9_!#$%&'*+/=?`{|}~^-]+(?:\.[A-Z0-9_!#$%&'*+/=?`{|}~^-]+)*@(?:[A-Z0-9-]+\.)+[A-Z]{2,6}$/i,
+                                            message: "Enter a valid e-mail."
+                                          }
                                     })
                                 }
                             />
@@ -127,10 +144,10 @@ const Contact = () => {
                                 defaultValue={form.Phone} 
                                 ref={
                                     register({ 
-                                        required: "Phone is required", 
+                                        required: "Phone is required.", 
                                         pattern:{
                                             value:/[0-9]{10}/, 
-                                            message:"Enter a 10 digit phone number"
+                                            message:"Enter a 10 digit phone number."
                                         }
                                     })
                                 }
@@ -146,14 +163,14 @@ const Contact = () => {
                                 defaultValue={form.Message} 
                                 ref={
                                     register({ 
-                                        required: "Please leave a message", 
+                                        required: "Please leave a message.", 
                                         minLength: {
                                             value: 5,
-                                            message: "The message must have at least 5 characters" 
+                                            message: "The message must have at least 5 characters." 
                                         },
                                         maxLength: {
                                             value: 300,
-                                            message: "The message must have up to 300 characters" 
+                                            message: "The message must have up to 300 characters." 
                                         }
                                     })
                                 }
