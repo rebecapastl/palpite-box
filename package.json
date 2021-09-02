@@ -21,7 +21,8 @@
     "react-dom": "^16.13.1",
     "react-hook-form": "^6.15.1",
     "swr": "^0.3.2",
-    "tailwindcss": "^1.7.5"
+    "tailwindcss": "^1.7.5",
+    "object-path": ">=0.11.5"
   },
   "icons": [
     {
